@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>tech-0s 7 "gigi" - Descargar el sistema operativo</title>
+<meta name="description" content="tech-0s 7 (gigi): sistema operativo personal basado en LMDE 7 / Debian Trixie con Cinnamon. Descarga gratis la ISO para BIOS y UEFI.">
+<meta name="keywords" content="tech-0s, techos, linux, LMDE, Debian Trixie, Cinnamon, ISO, descargar">
+<meta property="og:title" content="Descargar tech-0s 7 (gigi)">
+<meta property="og:description" content="Sistema operativo personal basado en LMDE 7 / Debian Trixie con Cinnamon.">
+<meta property="og:image" content="tech-os-logo.png">
+<meta property="og:type" content="website">
+<link rel="icon" href="tech-os-logo.png">
+<style>
+  :root{ --cyan:#2e8b8b; --cyan2:#66e0e0; --bg:#0b0e14; --panel:#121821; --line:#1e2a36; --txt:#cfe8ff; --green:#7fa650; }
+  *{ box-sizing:border-box; }
+  body{ margin:0; background:var(--bg); color:var(--txt); font-family:'Segoe UI',system-ui,sans-serif; line-height:1.6; }
+  a{ color:var(--cyan2); }
+  .topbar{ background:#0e141c; border-bottom:1px solid var(--line); position:sticky; top:0; z-index:10; }
+  .topbar .in{ max-width:1000px; margin:0 auto; display:flex; align-items:center; gap:14px; padding:10px 18px; }
+  .topbar img{ height:34px; }
+  .topbar b{ font-size:1.15rem; letter-spacing:.12em; color:#fff; }
+  .topbar nav{ margin-left:auto; display:flex; gap:20px; font-size:.95rem; }
+  .topbar nav a{ color:var(--txt); text-decoration:none; }
+  .topbar nav a:hover{ color:var(--cyan2); }
+  header{ text-align:center; padding:56px 18px 24px; }
+  header h1{ font-size:2.4rem; margin:0 0 6px; color:#fff; letter-spacing:.04em; }
+  header p{ color:#8fb6c9; margin:0; }
+  .wrap{ max-width:1000px; margin:0 auto; padding:0 18px 70px; }
+  .card{ background:var(--panel); border:1px solid var(--line); border-radius:12px; padding:28px; margin-top:26px; }
+  h2{ color:#fff; border-bottom:1px solid var(--line); padding-bottom:8px; margin-top:0; font-size:1.35rem; }
+  .ed{ display:flex; gap:26px; align-items:center; flex-wrap:wrap; }
+  .ed .info{ flex:1; min-width:240px; }
+  .ed ul{ margin:8px 0 0; padding-left:18px; color:#9fc3d4; }
+  .btn{ display:inline-block; margin-top:18px; padding:15px 30px; background:var(--cyan); color:#04191a;
+        font-weight:700; text-decoration:none; border-radius:8px; font-size:1.1rem; transition:.15s; }
+  .btn:hover{ background:var(--cyan2); }
+  .btn small{ display:block; font-weight:400; font-size:.78rem; opacity:.85; }
+  table{ width:100%; border-collapse:collapse; margin-top:12px; font-size:.95rem; }
+  th,td{ text-align:left; padding:10px 12px; border-bottom:1px solid var(--line); }
+  th{ color:#8fb6c9; font-weight:600; }
+  code,pre{ background:#0a0f16; border:1px solid var(--line); border-radius:6px; color:var(--green); }
+  code{ padding:2px 6px; }
+  pre{ padding:12px 14px; overflow:auto; }
+  ol li{ margin-bottom:8px; }
+  .espora{ text-align:center; color:#5fb3b3; font-family:monospace; white-space:pre; line-height:1.05; font-size:.7rem; margin:0 0 10px; }
+  footer{ border-top:1px solid var(--line); text-align:center; padding:26px; color:#6d8a9c; font-size:.85rem; }
+  .tag{ display:inline-block; background:#12262a; color:var(--cyan2); border:1px solid var(--cyan); border-radius:20px;
+        padding:2px 12px; font-size:.8rem; margin-left:8px; }
+</style>
+</head>
+<body>
+
+<div class="topbar">
+  <div class="in">
+    <img src="tech-os-logo.png" alt="tech-0s">
+    <b>tech-0s</b>
+    <nav>
+      <a href="#descargar">Descargar</a>
+      <a href="#espejos">Espejos</a>
+      <a href="#verificar">Verificar</a>
+      <a href="#guia">Guía</a>
+    </nav>
+  </div>
+</div>
+
+<header>
+  <pre class="espora">
+             @@@@@@@@@@@
+    # %@@@@@%*+@@@##%@@@@@ # #
+       @@@@#======+@#*#####%@@@@#
+     @@@@=========+@@#########@@@@#
+    @@@*==========+@##*#########@@@
+   @@@===========+*@%##++##*+*###@@@
+  @@@+========+%@@%#%%@@*##**#####@@@
+  @@#========%@*++++++*@@##*##*##%@@
+  @@%=======#@*+++++++++*@@########@@
+  @@@@@@@@@@@+++++++++*@@#*######@@
+  @@#=======#@*+++++++++*@%#*##*###@@
+  @@#=======+%@*+++++++*@@##*##*##%@@
+  @@@+========*@@%##*%@@@@#####*##@@@
+   @@@+==========+*@#+===*@@#####@@@
+    @@@*===================*@@##@@@
+     @@@@+==================#@@@@
+      #@@@@*===============*@@@@#
+    # %@@@@@#+=====+#@@@@@@# #
+             @@@@@@@@@@@
+  </pre>
+  <h1>Descargar tech-0s 7 "gigi"</h1>
+  <p>La distro personal de tech-0s · basada en LMDE 7 · Debian Trixie · Cinnamon</p>
+</header>
+
+<div class="wrap">
+
+  <div class="card" id="descargar">
+    <h2>Cinnamon Edition <span class="tag">Recomendada</span></h2>
+    <div class="ed">
+      <div class="info">
+        <p>tech-0s 7 "gigi" es un sistema operativo ligero y de aspecto futurista, con arranque personalizado,
+           terminal propia y una IA que ayuda a arreglar fallos.</p>
+        <ul>
+          <li>Base: <b>Debian Trixie</b> (LMDE 7)</li>
+          <li>Escritorio: <b>Cinnamon</b></li>
+          <li>Arranque: <b>BIOS + UEFI</b> (USB/DVD)</li>
+          <li>Incluye: <b>asistente IA</b> (<code>tech-os ia</code>)</li>
+          <li>Tamaño: <b>~2.9 GB</b></li>
+        </ul>
+        <!-- CAMBIA esta URL cuando cambie el tunel (mira: tech-0s-enlace) -->
+        <a class="btn" href="https://hitachi-molecular-joshua-nonprofit.trycloudflare.com/tech-0s-7-gigi.iso">Descargar ISO (64-bit)
+          <small>tech-0s-7-gigi.iso</small></a>
+      </div>
+    </div>
+  </div>
+
+  <div class="card" id="espejos">
+    <h2>Espejos de descarga</h2>
+    <table>
+      <tr><th>Ubicación</th><th>Espejo</th><th>Descarga</th></tr>
+      <tr><td>Local</td><td>Servidor tech-0s</td>
+          <td><a href="https://hitachi-molecular-joshua-nonprofit.trycloudflare.com/tech-0s-7-gigi.iso">tech-0s-7-gigi.iso</a></td></tr>
+    </table>
+  </div>
+
+  <div class="card" id="verificar">
+    <h2>Integridad y autenticidad</h2>
+    <p>Cualquiera puede fabricar ISO falsas. Verifica siempre tu descarga:</p>
+    <pre id="sum">cargando sha256...</pre>
+    <p><a href="sha256sum.txt">sha256sum.txt</a></p>
+    <pre>sha256sum -c sha256sum.txt</pre>
+  </div>
+
+  <div class="card" id="guia">
+    <h2>Guía de instalación</h2>
+    <ol>
+      <li>Descarga <code>tech-0s-7-gigi.iso</code>.</li>
+      <li>Grábalo en un USB de 4 GB o más (con <code>dd</code> o balenaEtcher).</li>
+      <li>Arranca desde el USB (F12 / F2 al encender).</li>
+      <li>Elige <b>Start tech-0s</b> y luego instala con el instalador.</li>
+      <li>Reinicia y disfruta: <code>tech-os help</code> y <code>tech-os ia</code>.</li>
+    </ol>
+  </div>
+
+</div>
+
+<footer>
+  tech-0s 7 "gigi" &middot; Hecho a mano &middot; Copyleft 2026
+</footer>
+
+<script>
+fetch('sha256sum.txt').then(r=>r.text()).then(t=>{
+  document.getElementById('sum').textContent = (t.trim().split(/\s+/)[0]||'no disponible');
+}).catch(()=>{document.getElementById('sum').textContent='no disponible';});
+</script>
+</body>
+</html>
