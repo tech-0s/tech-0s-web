@@ -48,6 +48,28 @@
   .tag{ display:inline-block; background:#12262a; color:var(--cyan2); border:1px solid var(--cyan); border-radius:20px;
         padding:2px 12px; font-size:.8rem; margin-left:8px; }
 .marca{ position:fixed; right:14px; bottom:10px; width:110px; opacity:.16; pointer-events:none; z-index:999; }
+
+  /* --- donaciones --- */
+  .donar-grid{ display:flex; gap:16px; flex-wrap:wrap; margin-top:16px; }
+  .donar-stat{ flex:1; min-width:160px; background:#0a0f16; border:1px solid var(--line); border-radius:10px; padding:18px; text-align:center; }
+  .donar-cifra{ display:block; font-size:2rem; font-weight:700; color:var(--cyan2); }
+  .donar-leyenda{ font-size:.85rem; color:#8fb6c9; }
+  .don-nota{ background:#12262a; border:1px dashed var(--cyan); border-radius:8px; padding:12px 14px; color:var(--txt); margin-top:16px; }
+  .don-meta{ margin-top:18px; }
+  .don-meta .etq{ font-size:.85rem; color:#8fb6c9; display:flex; justify-content:space-between; margin-bottom:6px; }
+  .don-barra{ height:10px; background:#0a0f16; border:1px solid var(--line); border-radius:6px; overflow:hidden; }
+  .don-barra > i{ display:block; height:100%; background:var(--cyan); transition:width .4s; }
+  #don-top h3{ color:#fff; font-size:1.05rem; margin:24px 0 10px; }
+  .don-top{ list-style:none; margin:0; padding:0; }
+  .don-top li{ display:flex; flex-wrap:wrap; align-items:baseline; gap:10px; padding:10px 14px;
+        border:1px solid var(--line); border-radius:8px; margin-bottom:8px; background:#0a0f16; }
+  .don-nombre{ font-weight:600; color:#fff; }
+  .don-importe{ margin-left:auto; color:var(--cyan2); font-weight:700; white-space:nowrap; }
+  .don-mensaje{ flex-basis:100%; color:#9fc3d4; font-size:.9rem; font-style:italic; }
+  .don-medalla-1{ border-color:#e6c341; box-shadow:0 0 0 1px #e6c34133; }
+  .don-medalla-2{ border-color:#c0c0c0; }
+  .don-medalla-3{ border-color:#cd7f32; }
+  .don-gracias{ margin-top:16px; color:var(--green); font-weight:600; }
 </style>
 </head>
 <body>
@@ -61,6 +83,7 @@
       <a href="#espejos">Espejos</a>
       <a href="#verificar">Verificar</a>
       <a href="#guia">Guía</a>
+      <a href="#donar">Donar</a>
     </nav>
   </div>
 </div>
@@ -125,6 +148,37 @@
     </ol>
   </div>
 
+  <div class="card" id="donar">
+    <h2>Donar a tech-0s <span class="tag">Gracias</span></h2>
+    <p>tech-0s es gratuito y sin anuncios. Si te resulta útil, puedes colaborar para ayudar a mantenerlo vivo.</p>
+
+    <div class="donar-grid">
+      <div class="donar-stat">
+        <span class="donar-cifra" id="don-total">—</span>
+        <span class="donar-leyenda">recaudado hasta hoy</span>
+      </div>
+      <div class="donar-stat">
+        <span class="donar-cifra" id="don-count">—</span>
+        <span class="donar-leyenda">personas han donado</span>
+      </div>
+    </div>
+
+    <a class="btn" id="don-boton" href="#" hidden>Donar ahora <small>elige tú la cantidad</small></a>
+    <p class="don-nota" id="don-nota" hidden></p>
+
+    <div class="don-meta" id="don-meta" hidden>
+      <div class="etq"><span>Progreso de la meta</span><span id="don-meta-txt"></span></div>
+      <div class="don-barra"><i id="don-barra" style="width:0%"></i></div>
+    </div>
+
+    <div id="don-top" hidden>
+      <h3>Gracias a los que más han apoyado</h3>
+      <ol class="don-top" id="don-toplista"></ol>
+    </div>
+
+    <p class="don-gracias" id="don-gracias" hidden></p>
+  </div>
+
 </div>
 
 <img class="marca" src="tech-os-logo.png" alt="tech-0s">
@@ -137,6 +191,96 @@
 fetch('sha256sum.txt').then(r=>r.text()).then(t=>{
   document.getElementById('sum').textContent = (t.trim().split(/\s+/)[0]||'no disponible');
 }).catch(()=>{document.getElementById('sum').textContent='no disponible';});
+
+/* --- donaciones --- */
+function euros(n, sim){
+  return Number(n||0).toLocaleString('es-ES',{minimumFractionDigits:2, maximumFractionDigits:2}) + ' ' + sim;
+}
+
+function pintarDonaciones(d){
+  var sim = d.simbolo || '€';
+  var donantes = Array.isArray(d.donantes) ? d.donantes : [];
+
+  var total = donantes.reduce(function(s,x){ return s + (Number(x.importe)||0); }, 0);
+  var count = donantes.length;
+
+  document.getElementById('don-total').textContent = euros(total, sim);
+  document.getElementById('don-count').textContent = String(count);
+
+  // botón o aviso de pago
+  var boton = document.getElementById('don-boton');
+  var nota  = document.getElementById('don-nota');
+  if (d.enlace_pago){
+    boton.href = d.enlace_pago;
+    boton.hidden = false;
+    nota.hidden = true;
+  } else {
+    boton.hidden = true;
+    if (d.aviso_pago){ nota.textContent = d.aviso_pago; nota.hidden = false; }
+  }
+
+  // meta (opcional)
+  var meta = Number(d.meta)||0;
+  if (meta > 0 && total > 0){
+    var pct = Math.min(100, Math.round(total/meta*100));
+    document.getElementById('don-barra').style.width = pct + '%';
+    document.getElementById('don-meta-txt').textContent = euros(total,sim) + ' de ' + euros(meta,sim);
+    document.getElementById('don-meta').hidden = false;
+  }
+
+  // top donantes (solo los que marcaron publico: true)
+  var top = donantes
+    .filter(function(x){ return x.publico && (Number(x.importe)||0) > 0; })
+    .sort(function(a,b){ return (Number(b.importe)||0) - (Number(a.importe)||0); })
+    .slice(0, 10);
+
+  if (top.length){
+    var medallas = ['don-medalla-1','don-medalla-2','don-medalla-3'];
+    var iconos = ['🥇','🥈','🥉'];
+    var lista = document.getElementById('don-toplista');
+    lista.innerHTML = '';
+    top.forEach(function(x, i){
+      var li = document.createElement('li');
+      if (medallas[i]) li.className = medallas[i];
+
+      var nombre = document.createElement('span');
+      nombre.className = 'don-nombre';
+      nombre.textContent = (iconos[i] ? iconos[i] + ' ' : '') + (x.nombre || 'Anónimo');
+
+      var imp = document.createElement('span');
+      imp.className = 'don-importe';
+      imp.textContent = euros(x.importe, sim);
+
+      li.appendChild(nombre);
+      li.appendChild(imp);
+
+      if (x.mensaje){
+        var m = document.createElement('div');
+        m.className = 'don-mensaje';
+        m.textContent = '“' + x.mensaje + '”';
+        li.appendChild(m);
+      }
+      lista.appendChild(li);
+    });
+    document.getElementById('don-top').hidden = false;
+  }
+
+  // agradecimiento general
+  if (count > 0){
+    var g = document.getElementById('don-gracias');
+    g.textContent = 'Gracias a las ' + count + ' persona' + (count===1?'':'s') +
+                    ' que ya han colaborado. ¡tech-0s sigue vivo gracias a vosotros!';
+    g.hidden = false;
+  }
+}
+
+fetch('donaciones.json')
+  .then(function(r){ return r.json(); })
+  .then(pintarDonaciones)
+  .catch(function(){
+    document.getElementById('don-total').textContent = '?';
+    document.getElementById('don-count').textContent = '?';
+  });
 </script>
 </body>
 </html>
