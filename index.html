@@ -5,49 +5,83 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>tech-0s 7 "gigi" - Descargar el sistema operativo</title>
 <meta name="description" content="tech-0s 7 (gigi): sistema operativo personal basado en LMDE 7 / Debian Trixie con Cinnamon. Descarga gratis la ISO para BIOS y UEFI.">
-<meta name="keywords" content="tech-0s, techos, linux, LMDE, Debian Trixie, Cinnamon, ISO, descargar">
+<meta name="keywords" content="tech-0s, techos, linux, LMDE, Debian Trixie, Cinnamon, ISO, descargar, distro, sistema operativo">
+<meta name="author" content="tech-0s">
+<link rel="canonical" href="https://tech-0s.is-a.dev/">
+<meta name="theme-color" content="#0b0e14">
+
+<meta property="og:site_name" content="tech-0s">
 <meta property="og:title" content="Descargar tech-0s 7 (gigi)">
 <meta property="og:description" content="Sistema operativo personal basado en LMDE 7 / Debian Trixie con Cinnamon.">
-<meta property="og:image" content="tech-os-logo.png">
+<meta property="og:image" content="https://tech-0s.is-a.dev/tech-os-logo.png">
+<meta property="og:image:width" content="1920">
+<meta property="og:image:height" content="1080">
+<meta property="og:url" content="https://tech-0s.is-a.dev/">
 <meta property="og:type" content="website">
+<meta property="og:locale" content="es_ES">
+
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Descargar tech-0s 7 (gigi)">
+<meta name="twitter:description" content="Sistema operativo personal basado en LMDE 7 / Debian Trixie con Cinnamon.">
+<meta name="twitter:image" content="https://tech-0s.is-a.dev/tech-os-logo.png">
+
 <link rel="icon" href="tech-os-logo.png">
+<link rel="apple-touch-icon" href="tech-os-logo.png">
 <style>
-  :root{ --cyan:#2e8b8b; --cyan2:#66e0e0; --bg:#0b0e14; --panel:#121821; --line:#1e2a36; --txt:#cfe8ff; --green:#7fa650; }
+  :root{ --cyan:#2e8b8b; --cyan2:#66e0e0; --bg:#0b0e14; --panel:#121821; --line:#1e2a36; --txt:#cfe8ff; --green:#7fa650; --dim:#8fb6c9; --mute:#6d8a9c; }
   *{ box-sizing:border-box; }
+  html{ scroll-behavior:smooth; }
   body{ margin:0; background:var(--bg); color:var(--txt); font-family:'Segoe UI',system-ui,sans-serif; line-height:1.6; }
   a{ color:var(--cyan2); }
   .topbar{ background:#0e141c; border-bottom:1px solid var(--line); position:sticky; top:0; z-index:10; }
-  .topbar .in{ max-width:1000px; margin:0 auto; display:flex; align-items:center; gap:14px; padding:10px 18px; }
+  .topbar .in{ max-width:1000px; margin:0 auto; display:flex; align-items:center; gap:14px; padding:10px 18px; flex-wrap:wrap; }
   .topbar img{ height:34px; }
   .topbar b{ font-size:1.15rem; letter-spacing:.12em; color:#fff; }
-  .topbar nav{ margin-left:auto; display:flex; gap:20px; font-size:.95rem; }
+  .topbar nav{ margin-left:auto; display:flex; gap:20px; font-size:.95rem; flex-wrap:wrap; }
   .topbar nav a{ color:var(--txt); text-decoration:none; }
   .topbar nav a:hover{ color:var(--cyan2); }
   header{ text-align:center; padding:56px 18px 24px; }
   header h1{ font-size:2.4rem; margin:0 0 6px; color:#fff; letter-spacing:.04em; }
-  header p{ color:#8fb6c9; margin:0; }
+  header p{ color:var(--dim); margin:0; }
   .wrap{ max-width:1000px; margin:0 auto; padding:0 18px 70px; }
   .card{ background:var(--panel); border:1px solid var(--line); border-radius:12px; padding:28px; margin-top:26px; }
   h2{ color:#fff; border-bottom:1px solid var(--line); padding-bottom:8px; margin-top:0; font-size:1.35rem; }
+  h3{ color:#fff; font-size:1.05rem; margin:22px 0 6px; }
   .ed{ display:flex; gap:26px; align-items:center; flex-wrap:wrap; }
-  .ed .info{ flex:1; min-width:240px; }
   .ed ul{ margin:8px 0 0; padding-left:18px; color:#9fc3d4; }
   .btn{ display:inline-block; margin-top:18px; padding:15px 30px; background:var(--cyan); color:#04191a;
         font-weight:700; text-decoration:none; border-radius:8px; font-size:1.1rem; transition:.15s; }
   .btn:hover{ background:var(--cyan2); }
+  .btn.sec{ background:transparent; color:var(--cyan2); border:1px solid var(--cyan); }
+  .btn.sec:hover{ background:#12262a; }
   .btn small{ display:block; font-weight:400; font-size:.78rem; opacity:.85; }
   table{ width:100%; border-collapse:collapse; margin-top:12px; font-size:.95rem; }
-  th,td{ text-align:left; padding:10px 12px; border-bottom:1px solid var(--line); }
-  th{ color:#8fb6c9; font-weight:600; }
+  th,td{ text-align:left; padding:10px 12px; border-bottom:1px solid var(--line); vertical-align:top; }
+  th{ color:var(--dim); font-weight:600; }
   code,pre{ background:#0a0f16; border:1px solid var(--line); border-radius:6px; color:var(--green); }
-  code{ padding:2px 6px; }
-  pre{ padding:12px 14px; overflow:auto; }
+  code{ padding:2px 6px; font-size:.9em; }
+  pre{ padding:12px 14px; overflow:auto; font-size:.88rem; margin:8px 0; }
+  pre.wrap{ white-space:pre-wrap; word-break:break-all; }
   ol li{ margin-bottom:8px; }
   .logo-hero{ display:block; margin:0 auto 10px; height:170px; width:auto; }
-  footer{ border-top:1px solid var(--line); text-align:center; padding:26px; color:#6d8a9c; font-size:.85rem; }
+  footer{ border-top:1px solid var(--line); text-align:center; padding:26px; color:var(--mute); font-size:.85rem; }
+  footer a{ color:var(--cyan2); text-decoration:none; }
+  footer a:hover{ text-decoration:underline; }
   .tag{ display:inline-block; background:#12262a; color:var(--cyan2); border:1px solid var(--cyan); border-radius:20px;
-        padding:2px 12px; font-size:.8rem; margin-left:8px; }
-.marca{ position:fixed; right:14px; bottom:10px; width:110px; opacity:.16; pointer-events:none; z-index:999; }
+        padding:2px 12px; font-size:.8rem; margin-left:8px; vertical-align:middle; }
+  .ver{ font-size:.8rem; color:var(--mute); }
+  details{ background:#0e141c; border:1px solid var(--line); border-radius:8px; padding:0 14px; margin-top:10px; }
+  details[open]{ padding-bottom:12px; }
+  summary{ cursor:pointer; color:#fff; font-weight:600; padding:12px 0; }
+  summary:hover{ color:var(--cyan2); }
+  details p{ margin:4px 0 8px; color:#9fc3d4; }
+  .marca{ position:fixed; right:14px; bottom:10px; width:110px; opacity:.16; pointer-events:none; z-index:999; }
+  .grid{ display:grid; grid-template-columns:repeat(auto-fit,minmax(210px,1fr)); gap:14px; margin-top:14px; }
+  .grid .it{ background:#0e141c; border:1px solid var(--line); border-radius:9px; padding:14px 16px; }
+  .grid .it b{ color:#fff; display:block; margin-bottom:2px; }
+  .grid .it span{ color:var(--dim); font-size:.88rem; }
+  .pill{ display:inline-block; background:#0e141c; border:1px solid var(--line); color:var(--dim);
+         border-radius:20px; padding:1px 10px; font-size:.75rem; margin:2px 4px 2px 0; }
 </style>
 </head>
 <body>
@@ -58,8 +92,11 @@
     <b>tech-0s</b>
     <nav>
       <a href="#descargar">Descargar</a>
+      <a href="#novedades">Novedades</a>
+      <a href="#requisitos">Requisitos</a>
       <a href="#espejos">Espejos</a>
       <a href="#verificar">Verificar</a>
+      <a href="#faq">Preguntas</a>
       <a href="#guia">Guía</a>
     </nav>
   </div>
@@ -69,6 +106,12 @@
   <img class="logo-hero" src="tech-os-logo.png" alt="tech-0s">
   <h1>Descargar tech-0s 7 "gigi"</h1>
   <p>La distro personal de tech-0s · basada en LMDE 7 · Debian Trixie · Cinnamon</p>
+  <p style="margin-top:14px">
+    <span class="pill">64-bit</span>
+    <span class="pill">BIOS + UEFI</span>
+    <span class="pill">~2.9 GB</span>
+    <span class="pill">Copyleft</span>
+  </p>
 </header>
 
 <div class="wrap">
@@ -90,9 +133,52 @@
           <li>Tamaño: <b>~2.9 GB</b></li>
         </ul>
         <a class="btn" href="https://archive.org/download/tech-0s-7-gigi/tech-0s-7-gigi.iso">Descargar ISO (64-bit)
-          <small>tech-0s-7-gigi.iso</small></a>
+          <small>tech-0s-7-gigi.iso · 2.8 GB · Internet Archive</small></a>
+        <a class="btn sec" href="https://archive.org/download/tech-0s-7-gigi/tech-0s-7-gigi_archive.torrent">Descarga por torrent</a>
       </div>
     </div>
+  </div>
+
+  <div class="card" id="novedades">
+    <h2>Novedades de la versión 7 "gigi"</h2>
+    <p>Esta es la septima versión de tech-0s. Recoge todo el trabajo hecho desde la 6.</p>
+
+    <h3>Tienda y aplicaciones</h3>
+    <ul>
+      <li><b>Tech-Tienda</b>: nuevo gestor de Software propio, con APT y <b>Flathub</b> en el mismo sitio.</li>
+      <li>Búsqueda de programas y actualizaciones desde un único lugar.</li>
+    </ul>
+
+    <h3>Escritorio y archivos</h3>
+    <ul>
+      <li><b>Nemo optimizado</b> para una indexación y previsualizaciones más rápidas.</li>
+      <li>Soporte para <b>disco extra de datos</b>, pensado para Bibliotecas de juegos.</li>
+    </ul>
+
+    <h3>Herramientas propias</h3>
+    <ul>
+      <li><b>tech-os ia</b>: asistente de diagnóstico que <b>solo repara errores</b> y funciona <b>sin internet</b>.</li>
+      <li><b>tech-os help</b> en la terminal para consultar la ayuda del sistema.</li>
+      <li><b>Mission Center</b> para ver CPU, RAM y GPU en vivo.</li>
+    </ul>
+
+    <h3>Arranque y sistema</h3>
+    <ul>
+      <li>Tema de arranque propio (Plymouth) animado.</li>
+      <li>Fondos de pantalla incluidos: minimal, aurora y hexgrid.</li>
+      <li>ISO híbrida: arranca en <b>BIOS y UEFI</b> con el mismo archivo.</li>
+    </ul>
+  </div>
+
+  <div class="card" id="requisitos">
+    <h2>Requisitos del sistema</h2>
+    <div class="grid">
+      <div class="it"><b>Procesador</b><span>x86-64 de 64 bits, 2 GHz o superior</span></div>
+      <div class="it"><b>Memoria RAM</b><span>2 GB mínimo · 4 GB recomendado</span></div>
+      <div class="it"><b>Disco</b><span>12 GB libres para instalar</span></div>
+      <div class="it"><b>Gráficos</b><span>Cualquiera con OpenGL 1.4+</span></div>
+    </div>
+    <p class="ver" style="margin-top:14px">Funciona en cualquier equipo de 64 bits. También arranca en máquinas antiguas, pero con 2 GB de RAM irá justo.</p>
   </div>
 
   <div class="card" id="espejos">
@@ -101,36 +187,110 @@
       <tr><th>Ubicación</th><th>Espejo</th><th>Descarga</th></tr>
       <tr><td>Permanente</td><td>Internet Archive</td>
           <td><a href="https://archive.org/download/tech-0s-7-gigi/tech-0s-7-gigi.iso">tech-0s-7-gigi.iso</a> · <a href="https://archive.org/details/tech-0s-7-gigi">detalles</a></td></tr>
+      <tr><td>Permanente</td><td>Torrent</td>
+          <td><a href="https://archive.org/download/tech-0s-7-gigi/tech-0s-7-gigi_archive.torrent">archivo .torrent</a></td></tr>
       <tr><td>Local</td><td>Servidor tech-0s (temporal)</td>
           <td><span style="color:#6d8a9c">Enlace temporal no disponible — usa Internet Archive</span></td></tr>
     </table>
+    <p class="ver">Internet Archive es el espejo permanente: funciona aunque el equipo de quien lo subió esté apagado.</p>
   </div>
 
   <div class="card" id="verificar">
     <h2>Integridad y autenticidad</h2>
-    <p>Cualquiera puede fabricar ISO falsas. Verifica siempre tu descarga:</p>
-    <pre id="sum">cargando sha256...</pre>
-    <p><a href="sha256sum.txt">sha256sum.txt</a></p>
+    <p>Cualquiera puede fabricar ISO falsas. Verifica siempre tu descarga antes de instalarla.</p>
+
+    <h3>Suma SHA-256 (recomendada)</h3>
+    <pre id="sum" class="wrap">cargando sha256...</pre>
+    <p><a href="sha256sum.txt">Descargar sha256sum.txt</a></p>
     <pre>sha256sum -c sha256sum.txt</pre>
+    <p class="ver">En Windows con PowerShell: <code>Get-FileHash .\tech-0s-7-gigi.iso -Algorithm SHA256</code></p>
+
+    <h3>Otras sumas de referencia</h3>
+    <pre class="wrap">SHA-1   4df245c086bfb98f70028a74ce3b99accbb5cae0
+MD5     9f3898574af5d89fdc6ed04dcffbe69b
+CRC32   6dc8f31d
+Tamaño  2960257024 bytes</pre>
+
+    <h3>Clave de firma</h3>
+    <p>Si conoces la clave pública con la que se firmó la ISO, puedes comprobar la firma del archivo descargado.</p>
   </div>
 
   <div class="card" id="guia">
     <h2>Guía de instalación</h2>
     <ol>
-      <li>Descarga <code>tech-0s-7-gigi.iso</code>.</li>
-      <li>Grábalo en un USB de 4 GB o más (con <code>dd</code> o balenaEtcher).</li>
-      <li>Arranca desde el USB (F12 / F2 al encender).</li>
-      <li>Elige <b>Start tech-0s</b> y luego instala con el instalador.</li>
-      <li>Reinicia y disfruta: <code>tech-os help</code>, la <b>Tech-Tienda</b> y <code>tech-os ia</code>.</li>
+      <li>Descarga <code>tech-0s-7-gigi.iso</code> y verifica su SHA-256 (sección anterior).</li>
+      <li>Grábalo en un USB de 4 GB o más. En Linux o macOS con <code>dd</code>, en Windows con <b>balenaEtcher</b>.</li>
+      <li>Reinicia y arranca desde el USB (normalmente <code>F12</code>, <code>F8</code> o <code>F2</code>).</li>
+      <li>En el menú, elige <b>Start tech-0s</b> para probar el sistema sin instalar nada.</li>
+      <li>Si todo va bien, lanza el instalador y sigue los pasos en pantalla.</li>
+      <li>Al terminar, quita el USB, reinicia y disfruta: <code>tech-os help</code>, la <b>Tech-Tienda</b> y <code>tech-os ia</code>.</li>
     </ol>
+    <pre>dd if=tech-0s-7-gigi.iso of=/dev/sdX bs=4M status=progress conv=fdatasync</pre>
+    <p class="ver">Sustituye <code>/dev/sdX</code> por tu USB. <b>¡Cuidado!</b> Borra el dispositivo que indiques.</p>
+  </div>
+
+  <div class="card" id="faq">
+    <h2>Preguntas frecuentes</h2>
+
+    <details>
+      <summary>¿Es gratis?</summary>
+      <p>Sí. tech-0s es software libre y se distribuye bajo copyleft. Puedes descargarlo, usarlo y compartirlo sin coste.</p>
+    </details>
+
+    <details>
+      <summary>¿En qué se diferencia de Linux Mint?</summary>
+      <p>tech-0s parte de la misma base (LMDE 7 / Debian Trixie) pero lleva su propio tema oscuro, arranque animado,
+         Tech-Tienda, y utilidades propias como <code>tech-os ia</code> y <code>tech-os help</code>. Si buscas algo
+         parecido a Mint pero con identidad propia, esta es la distro.</p>
+    </details>
+
+    <details>
+      <summary>¿Funciona en mi equipo antiguo?</summary>
+      <p>Con 64 bits y 2 GB de RAM arranca. Si tu equipo no tiene soporte de 64 bits, esta ISO no te servirá.</p>
+    </details>
+
+    <details>
+      <summary>¿Puedo instalar sin internet?</summary>
+      <p>Sí. La instalación no necesita conexión, y <code>tech-os ia</code> repara errores sin internet. Para instalar
+         paquetes o actualizar sí necesitarás conexión.</p>
+    </details>
+
+    <details>
+      <summary>¿Cómo cambio el tema o el fondo?</summary>
+      <p>El tema oscuro de tech-0s viene de serie y los fondos incluidos están en el Escritorio. Cambia el fondo con el
+         botón derecho del escritorio → <b>Cambiar fondo de pantalla</b>.</p>
+    </details>
+
+    <details>
+      <summary>¿Cómo reporto un error?</summary>
+      <p>Escribe desde el sistema instalado con <code>tech-os help</code>, que abre el canal de reporte. También puedes
+         escribir por la página del proyecto en GitHub.</p>
+    </details>
+
+    <details>
+      <summary>¿Cómo ayudo al proyecto?</summary>
+      <p>Probando la ISO, reportando errores con pasos claros y mostrando tech-0s. Todo el código es libre: puedes mejorarlo.</p>
+    </details>
+  </div>
+
+  <div class="card">
+    <h2>Licencia y créditos</h2>
+    <p>tech-0s es software libre. El código de los componentes propios está bajo licencia copyleft y los paquetes de
+       Debian bajo sus respectivas licencias libres.</p>
+    <p class="ver">Hecho a mano. tech-0s no está afiliado a Linux Mint, LMDE ni el proyecto Debian.</p>
   </div>
 
 </div>
 
-<img class="marca" src="tech-os-logo.png" alt="tech-0s">
+<img class="marca" src="tech-os-logo.png" alt="">
 
 <footer>
-  tech-0s 7 "gigi" &middot; Hecho a mano &middot; Copyleft 2026
+  <p>tech-0s 7 "gigi" &middot; Hecho a mano &middot; Copyleft 2026</p>
+  <p>
+    <a href="https://archive.org/details/tech-0s-7-gigi">Detalles de la ISO</a> ·
+    <a href="sha256sum.txt">sha256sum.txt</a> ·
+    <a href="https://github.com/tech-0s/tech-0s-web">Código de la página</a>
+  </p>
 </footer>
 
 <script>
