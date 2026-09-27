@@ -1,0 +1,44 @@
+# tech-os GRUB Theme
+title-text: ""
+desktop-image: "background.png"
+desktop-color: "#000000"
+terminal-box: "terminal_box_*.png"
+terminal-left: "0"
+terminal-top: "0"
+terminal-width: "100%"
+terminal-height: "100%"
+terminal-border: "0"
+
++ boot_menu {
+  left = 15%
+  top = 15%
+  width = 70%
+  height = 50%
+  item_color = "#cccccc"
+  selected_item_color = "#00e5ff"
+  item_height = 32
+  item_spacing = 4
+  item_pixmap_style = "item_*"
+  selected_item_pixmap_style = "select_*"
+}
+
++ label {
+  left = 0
+  top = 100%-24
+  width = 100%
+  height = 24
+  text = "tech-0s | Presiona ↑↓ para seleccionar"
+  color = "#555555"
+  align = "center"
+}
+
++ progress_bar {
+  left = 15%
+  top = 100%-56
+  width = 70%
+  align = "center"
+  id = "__timeout__"
+  text = "@TIMEOUT_NOTIFICATION_MIDDLE@"
+  color = "#00e5ff"
+  font = "unicode 10"
+}

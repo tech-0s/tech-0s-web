@@ -1,0 +1,2 @@
+# tech-0s-lite: earlyoom protege el sistema con poca RAM
+EARLYOOM_ARGS="-r 60 -m 4 -s 100 --prefer '^(Web Content|firefox|electron|chrome)' --avoid '^(xfce4-session|Xorg|lightdm|systemd)$'"

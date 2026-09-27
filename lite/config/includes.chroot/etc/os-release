@@ -1,0 +1,8 @@
+PRETTY_NAME="tech-0s-lite"
+NAME="tech-0s-lite"
+ID=techos-lite
+ID_LIKE=debian
+VERSION_ID="1"
+VERSION="1 (lite)"
+VERSION_CODENAME=lite
+DEBIAN_CODENAME=trixie

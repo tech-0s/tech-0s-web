@@ -1,0 +1,440 @@
+#!/bin/sh
+# tech-0s-lite | hook de build: optimiza el chroot para <1GB RAM
+# Se ejecuta como root dentro del chroot durante el build de live-build
+
+set -e
+export DEBIAN_FRONTEND=noninteractive
+
+echo ">>> tech-0s-lite: optimizando sistema para baja RAM..."
+
+# --- 1. Desactivar servicios innecesarios para ahorrar RAM ---
+SERVICES_TO_DISABLE="
+bluetooth
+cups
+cups-browsed
+avahi-daemon
+ModemManager
+apport
+whoopsie
+speech-dispatcher
+kerneloops
+snapd
+snapd.apparmor
+snapd.autoimport
+snapd.core-fixup
+snapd.recovery-chooser
+snapd.seeded
+snapd.service
+snapd.system-shutdown
+snapd.socket
+snapd.snap-repair
+snapd.socket
+"
+
+for svc in $SERVICES_TO_DISABLE; do
+    if systemctl list-unit-files 2>/dev/null | grep -q "^${svc}"; then
+        systemctl disable "$svc" 2>/dev/null || true
+        systemctl mask "$svc" 2>/dev/null || true
+        echo "  [OK] desactivado: $svc"
+    fi
+done
+
+# --- 2. Configurar zram para compresión de memoria ---
+cat > /etc/default/zramswap <<'EOF'
+# tech-0s-lite: zram para equipos con poca RAM
+ALGO=zstd
+PERCENT=50
+PRIORITY=100
+EOF
+
+# --- 3. Configurar earlyoom para evitar OOM kills catastróficos ---
+cat > /etc/default/earlyoom <<'EOF'
+# tech-0s-lite: earlyoom protege el sistema con poca RAM
+EARLYOOM_ARGS="-r 60 -m 4 -s 100 --prefer '^(Web Content|firefox|electron|chrome)' --avoid '^(xfce4-session|Xorg|lightdm|systemd)$'"
+EOF
+
+# --- 4. Optimizar parámetros de kernel para poca RAM ---
+cat > /etc/sysctl.d/99-tech0s-lite.conf <<'EOF'
+# tech-0s-lite: optimización de memoria para sistemas con 4GB o menos
+
+# Reducir swappiness (usar swap solo cuando sea necesario)
+vm.swappiness=10
+
+# Reducir dirty pages para menos uso de RAM por caché de escritura
+vm.dirty_ratio=15
+vm.dirty_background_ratio=5
+vm.dirty_expire_centisecs=500
+vm.dirty_writeback_centisecs=100
+
+# Reducir caché de inodos y directorios
+vm.vfs_cache_pressure=50
+
+# Habilitar zswap como respaldo
+zswap.enabled=1
+zswap.zstd=1
+
+# Reducir overcommit de memoria
+vm.overcommit_memory=1
+vm.overcommit_ratio=50
+
+# Optimizar TCP para conexiones lentas
+net.ipv4.tcp_slow_start_after_idle=0
+net.core.rmem_default=1048576
+net.core.wmem_default=1048576
+net.core.rmem_max=16777216
+net.core.wmem_max=16777216
+net.ipv4.tcp_rmem=4096 1048576 2097152
+net.ipv4.tcp_wmem=4096 1048576 2097152
+
+# Reducir keepalive de TCP
+net.ipv4.tcp_keepalive_time=300
+net.ipv4.tcp_keepalive_intvl=30
+net.ipv4.tcp_keepalive_probes=3
+EOF
+
+# --- 5. Configurar tmpfiles para limpieza automática ---
+cat > /etc/tmpfiles.d/tech0s-lite.conf <<'EOF'
+# tech-0s-lite: limpieza automática de archivos temporales
+d /tmp 1777 root root 10d
+d /var/tmp 1777 root root 30d
+EOF
+
+# --- 6. Desactivar módulos del kernel innecesarios ---
+cat > /etc/modprobe.d/tech0s-lite-blacklist.conf <<'EOF'
+# tech-0s-lite: blacklist de módulos para ahorrar RAM
+# Desactivar Bluetooth si no se usa
+blacklist btusb
+blacklist bluetooth
+blacklist rfcomm
+blacklist bnep
+
+# Desactivar webcam si no se usa
+blacklist uvcvideo
+
+# Desactivar lectores de tarjetas
+blacklist rtsx_pci_sdmmc
+
+# Desactivar sensores no necesarios
+blacklist coretemp
+blacklist k10temp
+blacklist nct6775
+blacklist fam15h_power
+EOF
+
+# --- 7. Configurar journald para usar menos RAM ---
+cat > /etc/systemd/journald.conf.d/tech0s-lite.conf <<'EOF'
+# tech-0s-lite: journald ligero
+[Journal]
+SystemMaxUse=128M
+SystemMaxFileSize=16M
+MaxFileSec=7day
+Compress=yes
+EOF
+
+# --- 8. Desactivar apport (reporte de errores) para ahorrar RAM ---
+cat > /etc/default/apport <<'EOF'
+# tech-0s-lite: apport desactivado
+enabled=0
+EOF
+
+# --- 9. Configurar preload para aplicaciones frecuentes ---
+cat > /etc/preload.conf <<'EOF'
+# tech-0s-lite: preload optimizado
+# Aplicaciones a precargar (ajustar según uso)
+{
+    exe=/usr/bin/firefox-esr;
+    mtime=10;
+    hits=1;
+};
+{
+    exe=/usr/bin/xfce4-terminal;
+    mtime=10;
+    hits=1;
+};
+{
+    exe=/usr/bin/thunar;
+    mtime=10;
+    hits=1;
+};
+EOF
+
+# --- 10. Limpiar paquetes innecesarios ---
+apt-get purge -y --purge \
+    mintupdate \
+    mintinstall \
+    mintreport \
+    mintwelcome \
+    mintstick \
+    mintlocale \
+    mintmenu \
+    mint-common \
+    mint-artwork \
+    mint-backgrounds-wallpapers \
+    mint-themes \
+    mint-x-icons \
+    mint-y-icons \
+    mint-cursor-themes \
+    mint-l-icons \
+    mint-l-theme \
+    mint-meta-cinnamon \
+    mint-meta-core \
+    mint-mirrors \
+    mintsources \
+    mintsysadm \
+    mintsystem \
+    mint-translations \
+    mint-upgrade-info \
+    mintbackup \
+    mintchat \
+    mint-info-cinnamon \
+    cinnamon \
+    cinnamon-common \
+    cinnamon-control-center \
+    cinnamon-daemon \
+    cinnamon-desktop-environment \
+    cinnamon-desktop-data \
+    cinnamon-menus \
+    cinnamon-session \
+    cinnamon-settings-daemon \
+    cinnamon-screensaver \
+    nemo \
+    nemo-fileroller \
+    xed \
+    xreader \
+    pix \
+    warpinator \
+    celluloid \
+    hypnotix \
+    thingy \
+    sticky \
+    timeshift \
+    grub2-theme-mint \
+    2>/dev/null || true
+
+apt-get autoremove -y --purge 2>/dev/null || true
+
+# --- 11. Limpiar caché de apt ---
+apt-get clean
+rm -rf /var/lib/apt/lists/*
+rm -rf /var/cache/apt/archives/*
+
+# --- 12. Crear script de bienvenida para tech-0s-lite ---
+cat > /usr/local/bin/tech-0s-lite-welcome <<'WELCOME'
+#!/bin/bash
+# tech-0s-lite | bienvenida para la primera sesión
+
+FLAG="$HOME/.config/tech-0s-lite/first-run"
+
+if [ -f "$FLAG" ]; then
+    exit 0
+fi
+
+mkdir -p "$(dirname "$FLAG")"
+touch "$FLAG"
+
+# Mostrar mensaje de bienvenida
+export DISPLAY=:0
+export XAUTHORITY="$HOME/.Xauthority"
+
+zenity --info --title="Bienvenido a tech-0s-lite" --width=500 --height=300 --text="<b>¡Bienvenido a tech-0s-lite!</b>
+
+<b>Versión optimizada de tech-0s</b>
+Diseñada para equipos con 4GB de RAM o menos.
+
+<b>Optimizaciones incluidas:</b>
+• Escritorio XFCE (ligero)
+• zram: compresión de memoria
+• earlyoom: protección contra OOM
+• Servicios innecesarios desactivados
+• Kernel optimizado para poca RAM
+
+<b>RAM estimada en reposo:</b> ~300-400MB
+
+<b>Comandos útiles:</b>
+• <b>htop</b> - monitor del sistema
+• <b>neofetch</b> - info del sistema
+• <b>bleachbit</b> - limpieza de archivos
+
+<b>Para más info:</b> tech-0s-lite --help" 2>/dev/null &
+
+exit 0
+WELCOME
+
+chmod 0755 /usr/local/bin/tech-0s-lite-welcome
+
+# --- 13. Crear autostart para la bienvenida ---
+mkdir -p /etc/xdg/autostart
+cat > /etc/xdg/autostart/tech-0s-lite-welcome.desktop <<'EOF'
+[Desktop Entry]
+Type=Application
+Name=tech-0s-lite Welcome
+Comment=Bienvenida de tech-0s-lite (primera sesión)
+Exec=/usr/local/bin/tech-0s-lite-welcome
+Hidden=false
+NoDisplay=false
+X-GNOME-Autostart-enabled=true
+EOF
+
+# --- 14. Crear comando tech-0s-lite ---
+cat > /usr/local/bin/tech-0s-lite <<'CMD'
+#!/bin/bash
+# tech-0s-lite | comando de información y gestión
+
+case "$1" in
+    --help|-h)
+        echo "tech-0s-lite - Versión optimizada de tech-0s"
+        echo ""
+        echo "Uso: tech-0s-lite [opción]"
+        echo ""
+        echo "Opciones:"
+        echo "  --help, -h     Mostrar esta ayuda"
+        echo "  --info         Mostrar información del sistema"
+        echo "  --optimize     Ejecutar optimización manual"
+        echo "  --clean        Limpiar archivos temporales"
+        echo "  --status       Mostrar estado de optimizaciones"
+        echo ""
+        ;;
+    --info)
+        echo "=== tech-0s-lite ==="
+        echo ""
+        neofetch --stdout 2>/dev/null || {
+            echo "Sistema: $(uname -s) $(uname -r)"
+            echo "Escritorio: XFCE"
+            echo "RAM: $(free -h | awk '/^Mem:/ {print $3 "/" $2}')"
+            echo "Swap: $(free -h | awk '/^Swap:/ {print $3 "/" $2}')"
+        }
+        echo ""
+        ;;
+    --optimize)
+        echo "Ejecutando optimización de tech-0s-lite..."
+        sudo sysctl -p /etc/sysctl.d/99-tech0s-lite.conf
+        sudo systemctl restart zramswap
+        sudo systemctl restart earlyoom
+        echo "Optimización completada."
+        ;;
+    --clean)
+        echo "Limpiando archivos temporales..."
+        sudo bleachbit -c --preset 2>/dev/null || {
+            sudo rm -rf /tmp/*
+            sudo rm -rf /var/tmp/*
+            sudo apt-get clean
+            sudo apt-get autoremove -y --purge
+        }
+        echo "Limpieza completada."
+        ;;
+    --status)
+        echo "=== Estado de optimizaciones tech-0s-lite ==="
+        echo ""
+        echo "zram: $(systemctl is-active zramswap 2>/dev/null || echo 'inactivo')"
+        echo "earlyoom: $(systemctl is-active earlyoom 2>/dev/null || echo 'inactivo')"
+        echo "preload: $(systemctl is-active preload 2>/dev/null || echo 'inactivo')"
+        echo ""
+        echo "RAM en uso: $(free -h | awk '/^Mem:/ {print $3 "/" $2}')"
+        echo "Swap en uso: $(free -h | awk '/^Swap:/ {print $3 "/" $2}')"
+        echo ""
+        echo "Servicios desactivados:"
+        for svc in bluetooth cups avahi-daemon ModemManager apport whoopsie speech-dispatcher; do
+            status=$(systemctl is-active "$svc" 2>/dev/null || echo "inactivo")
+            echo "  $svc: $status"
+        done
+        echo ""
+        ;;
+    *)
+        echo "tech-0s-lite: versión optimizada de tech-0s"
+        echo "Usa 'tech-0s-lite --help' para más información."
+        ;;
+esac
+CMD
+
+chmod 0755 /usr/local/bin/tech-0s-lite
+
+# --- 15. Configurar sesión XFCE ---
+mkdir -p /usr/share/xsessions
+cat > /usr/share/xsessions/xfce-tech-0s-lite.desktop <<'EOF'
+[Desktop Entry]
+Name=tech-0s-lite
+Comment=Sesión optimizada de tech-0s con XFCE
+Exec=startxfce4
+Type=Application
+DesktopNames=tech-0s-lite
+EOF
+
+# --- 16. Configurar dconf para XFCE ---
+mkdir -p /etc/dconf/db/local.d
+cat > /etc/dconf/db/local.d/00-tech-0s-lite <<'EOF'
+# tech-0s-lite: defaults de XFCE para todos los usuarios
+
+[org/xfce4/desktop/background]
+style=0
+color-style=0
+rgba1=(0.02, 0.06, 0.09, 1)
+
+[org/xfce4/desktop/icons]
+style=0
+
+[org/xfce4/desktop/interface]
+font-name="Inter 11"
+icon-theme="Papirus-Dark"
+gtk-theme="Orchis-Dark"
+cursor-theme="Bibata-Original-Classic"
+
+[org/xfce4/desktop/wallpaper]
+last-image="/usr/share/backgrounds/tech-os/cyber-sun.png"
+
+[org/xfce4/panel]
+plugin-1=whiskermenu
+plugin-2=separator
+plugin-3=tasklist
+plugin-4=separator
+plugin-5=systray
+plugin-6=notification-plugin
+plugin-7=power-manager-plugin
+plugin-8=clock
+plugin-9=showdesktop
+
+[org/xfce4/power-manager]
+show-tray-icon=true
+dpms-enabled=true
+
+[org/xfce4/session]
+startup-command=""
+
+[org/xfce4/terminal]
+font-name="Monospace 11"
+scrollback-lines=5000
+EOF
+
+# --- 17. Configurar perfil dconf ---
+mkdir -p /etc/dconf/profile
+cat > /etc/dconf/profile/user <<'EOF'
+user-db:user
+system-db:local
+EOF
+
+# --- 18. Compilar dconf ---
+if command -v dconf >/dev/null 2>&1; then
+    dconf update || true
+fi
+
+# --- 19. Configurar LightDM para XFCE ---
+mkdir -p /etc/lightdm
+cat > /etc/lightdm/lightdm.conf.d/tech0s-lite.conf <<'EOF'
+[Seat:*]
+user-session=xfce-tech-0s-lite
+greeter-session=lightdm-gtk-greeter
+allow-guest=false
+greeter-show-manual-login=true
+greeter-hide-users=false
+EOF
+
+# --- 20. Configurar GRUB ---
+mkdir -p /etc/default/grub.d
+cat > /etc/default/grub.d/51-tech0s-lite.cfg <<'EOF'
+# tech-0s-lite: identidad del menú de arranque
+GRUB_DISTRIBUTOR="tech-0s-lite"
+GRUB_TIMEOUT=3
+GRUB_CMDLINE_LINUX_DEFAULT="quiet splash zswap.enabled=1 zswap.zstd=1"
+EOF
+
+echo ">>> tech-0s-lite: optimización completada"
+exit 0

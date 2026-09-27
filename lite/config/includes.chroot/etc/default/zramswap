@@ -1,0 +1,4 @@
+# tech-0s-lite: zram para equipos con poca RAM
+ALGO=zstd
+PERCENT=50
+PRIORITY=100

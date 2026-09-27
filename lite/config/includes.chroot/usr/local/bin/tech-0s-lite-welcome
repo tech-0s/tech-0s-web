@@ -1,0 +1,43 @@
+#!/bin/bash
+# tech-0s-lite | bienvenida para la primera sesión
+
+FLAG="$HOME/.config/tech-0s-lite/first-run"
+
+if [ -f "$FLAG" ]; then
+    exit 0
+fi
+
+mkdir -p "$(dirname "$FLAG")"
+touch "$FLAG"
+
+# Mostrar mensaje de bienvenida
+export DISPLAY=:0
+export XAUTHORITY="$HOME/.Xauthority"
+
+if command -v zenity &>/dev/null; then
+    zenity --info --title="Bienvenido a tech-0s-lite" --width=500 --height=300 --text="<b>¡Bienvenido a tech-0s-lite!</b>
+
+<b>Versión optimizada de tech-0s</b>
+Diseñada para equipos con 4GB de RAM o menos.
+
+<b>Optimizaciones incluidas:</b>
+• Escritorio XFCE (ligero)
+• zram: compresión de memoria
+• earlyoom: protección contra OOM
+• Servicios innecesarios desactivados
+• Kernel optimizado para poca RAM
+
+<b>RAM estimada en reposo:</b> ~300-400MB
+
+<b>Comandos útiles:</b>
+• <b>htop</b> - monitor del sistema
+• <b>neofetch</b> - info del sistema
+• <b>bleachbit</b> - limpieza de archivos
+• <b>tech-0s-lite --status</b> - estado de optimizaciones
+
+<b>Para más info:</b> tech-0s-lite --help" 2>/dev/null &
+elif command -v notify-send &>/dev/null; then
+    notify-send "Bienvenido a tech-0s-lite" "Versión optimizada para equipos con 4GB de RAM o menos." 2>/dev/null &
+fi
+
+exit 0

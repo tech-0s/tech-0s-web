@@ -1,0 +1,40 @@
+# tech-0s-lite: defaults de XFCE para todos los usuarios
+
+[org/xfce4/desktop/background]
+style=0
+color-style=0
+rgba1=(0.02, 0.06, 0.09, 1)
+
+[org/xfce4/desktop/icons]
+style=0
+
+[org/xfce4/desktop/interface]
+font-name="Inter 11"
+icon-theme="Papirus-Dark"
+gtk-theme="Orchis-Dark"
+cursor-theme="Bibata-Original-Classic"
+
+[org/xfce4/desktop/wallpaper]
+last-image="/usr/share/backgrounds/tech-os/cyber-sun.png"
+
+[org/xfce4/panel]
+plugin-1=whiskermenu
+plugin-2=separator
+plugin-3=tasklist
+plugin-4=separator
+plugin-5=systray
+plugin-6=notification-plugin
+plugin-7=power-manager-plugin
+plugin-8=clock
+plugin-9=showdesktop
+
+[org/xfce4/power-manager]
+show-tray-icon=true
+dpms-enabled=true
+
+[org/xfce4/session]
+startup-command=""
+
+[org/xfce4/terminal]
+font-name="Monospace 11"
+scrollback-lines=5000

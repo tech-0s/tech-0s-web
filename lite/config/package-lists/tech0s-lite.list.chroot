@@ -1,0 +1,103 @@
+# tech-0s-lite | paquetes XFCE optimizados para <1GB RAM
+# Diseñado para equipos con 4GB de RAM o menos
+
+# --- Escritorio XFCE (ligero) ---
+xfce4
+xfce4-terminal
+xfce4-panel
+xfce4-session
+xfce4-settings
+xfce4-power-manager
+xfce4-notifyd
+xfconf
+xfdesktop4
+xfwm4
+gtk3-engines-xfce
+xfce4-pulseaudio-plugin
+xfce4-screenshooter
+xfce4-taskmanager
+xfce4-clipman-plugin
+xfce4-whiskermenu-plugin
+
+# --- Gestor de archivos ---
+thunar
+thunar-archive-plugin
+thunar-volman
+tumbler
+gvfs
+gvfs-backends
+gvfs-fuse
+
+# --- Red y conectividad ---
+network-manager
+network-manager-gnome
+wpasupplicant
+rfkill
+
+# --- Audio ---
+pulseaudio
+pulseaudio-utils
+pavucontrol
+volumeicon-alsa
+
+# --- Visor de documentos y utilidades ligeros ---
+evince
+mousepad
+ristretto
+galculator
+xarchiver
+engrampa
+file-roller
+
+# --- Navegador (ligero) ---
+firefox-esr
+
+# --- Temas y look tech-0s ---
+orchis-gtk-theme
+papirus-icon-theme
+bibata-cursor-theme
+
+# --- Optimización de RAM ---
+zram-tools
+earlyoom
+preload
+
+# --- Utilidades del sistema ---
+htop
+neofetch
+gnome-disk-utility
+gdebi
+synaptic
+aptitude
+unattended-upgrades
+apt-listchanges
+debsums
+deborphan
+bleachbit
+
+# --- Fuentes ---
+fonts-inter
+fonts-dejavu
+fonts-noto-core
+
+# --- Codecs multimedia ---
+ffmpeg
+gstreamer1.0-libav
+gstreamer1.0-plugins-good
+gstreamer1.0-plugins-bad
+gstreamer1.0-plugins-ugly
+x264
+x265
+
+# --- Complementos XFCE ---
+xfce4-battery-plugin
+xfce4-cpugraph-plugin
+xfce4-netload-plugin
+xfce4-systemload-plugin
+xfce4-weather-plugin
+xfce4-datetime-plugin
+xfce4-mailwatch-plugin
+xfce4-mount-plugin
+xfce4-places-plugin
+xfce4-verve-plugin
+xfce4-xkb-plugin

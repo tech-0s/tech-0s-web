@@ -1,0 +1,76 @@
+#!/bin/bash
+# tech-0s-lite | comando de información y gestión
+
+case "$1" in
+    --help|-h)
+        echo "tech-0s-lite - Versión optimizada de tech-0s"
+        echo ""
+        echo "Uso: tech-0s-lite [opción]"
+        echo ""
+        echo "Opciones:"
+        echo "  --help, -h     Mostrar esta ayuda"
+        echo "  --info         Mostrar información del sistema"
+        echo "  --optimize     Ejecutar optimización manual"
+        echo "  --clean        Limpiar archivos temporales"
+        echo "  --status       Mostrar estado de optimizaciones"
+        echo ""
+        ;;
+    --info)
+        echo "=== tech-0s-lite ==="
+        echo ""
+        if command -v neofetch &>/dev/null; then
+            neofetch --stdout
+        else
+            echo "Sistema: $(uname -s) $(uname -r)"
+            echo "Escritorio: XFCE"
+            echo "RAM: $(free -h | awk '/^Mem:/ {print $3 "/" $2}')"
+            echo "Swap: $(free -h | awk '/^Swap:/ {print $3 "/" $2}')"
+        fi
+        echo ""
+        ;;
+    --optimize)
+        echo "Ejecutando optimización de tech-0s-lite..."
+        sudo sysctl -p /etc/sysctl.d/99-tech0s-lite.conf
+        sudo systemctl restart zramswap 2>/dev/null || true
+        sudo systemctl restart earlyoom 2>/dev/null || true
+        echo "Optimización completada."
+        ;;
+    --clean)
+        echo "Limpiando archivos temporales..."
+        if command -v bleachbit &>/dev/null; then
+            sudo bleachbit -c --preset 2>/dev/null || {
+                sudo rm -rf /tmp/*
+                sudo rm -rf /var/tmp/*
+                sudo apt-get clean
+                sudo apt-get autoremove -y --purge
+            }
+        else
+            sudo rm -rf /tmp/*
+            sudo rm -rf /var/tmp/*
+            sudo apt-get clean
+            sudo apt-get autoremove -y --purge
+        fi
+        echo "Limpieza completada."
+        ;;
+    --status)
+        echo "=== Estado de optimizaciones tech-0s-lite ==="
+        echo ""
+        echo "zram: $(systemctl is-active zramswap 2>/dev/null || echo 'inactivo')"
+        echo "earlyoom: $(systemctl is-active earlyoom 2>/dev/null || echo 'inactivo')"
+        echo "preload: $(systemctl is-active preload 2>/dev/null || echo 'inactivo')"
+        echo ""
+        echo "RAM en uso: $(free -h | awk '/^Mem:/ {print $3 "/" $2}')"
+        echo "Swap en uso: $(free -h | awk '/^Swap:/ {print $3 "/" $2}')"
+        echo ""
+        echo "Servicios desactivados:"
+        for svc in bluetooth cups avahi-daemon ModemManager apport whoopsie speech-dispatcher; do
+            status=$(systemctl is-active "$svc" 2>/dev/null || echo "inactivo")
+            echo "  $svc: $status"
+        done
+        echo ""
+        ;;
+    *)
+        echo "tech-0s-lite: versión optimizada de tech-0s"
+        echo "Usa 'tech-0s-lite --help' para más información."
+        ;;
+esac

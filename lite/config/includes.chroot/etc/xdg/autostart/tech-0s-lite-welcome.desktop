@@ -1,0 +1,8 @@
+[Desktop Entry]
+Type=Application
+Name=tech-0s-lite Welcome
+Comment=Bienvenida de tech-0s-lite (primera sesión)
+Exec=/usr/local/bin/tech-0s-lite-welcome
+Hidden=false
+NoDisplay=false
+X-GNOME-Autostart-enabled=true

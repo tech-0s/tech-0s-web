@@ -1,0 +1,6 @@
+[Desktop Entry]
+Name=tech-0s-lite
+Comment=Sesión optimizada de tech-0s con XFCE
+Exec=startxfce4
+Type=Application
+DesktopNames=tech-0s-lite
